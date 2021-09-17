@@ -14,8 +14,6 @@ from pathlib import Path
 # NOTE: Importamos os para indicar el directorio de templates y otras utilidades:
 import os
 # Importamos Celery para el manejo de tareas asincrónicas:
-from celery.schedules import crontab
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -172,7 +170,7 @@ LOGIN_URL = '/e-commerce/'
 
 LOGGING_DIR = f'{BASE_DIR}/marvel/logs/'
 
-SIMPLE_LOGGING = {
+LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
@@ -185,10 +183,11 @@ SIMPLE_LOGGING = {
     'handlers': {
         'general': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'general.log'),
-            'formatter': 'generic'
-        }
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'general-batch.log'),
+            'maxBytes': 1024*1024*15,  # 15MB
+            'backupCount': 10,
+            'formatter': 'generic',        },
     },
     'loggers': {
         # django: registra todos los logs
@@ -199,153 +198,3 @@ SIMPLE_LOGGING = {
         }
     }
 }
-
-COMPLEX_LOGGING = {
-    # NOTE: Establecemos la versión:
-    'version': 1,
-    # NOTE: Mantenemos el resto de los loggers:
-    'disable_existing_loggers': False,
-    # NOTE: Generamos filtros de estado de debug:
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    # NOTE: Diseñamos formateadores para los mensajes:
-    'formatters': {
-        'verbose': {
-            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt': "%d/%b/%Y %H:%M:%S"
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-        'time': {
-            'format': '[%(asctime)s] |%(levelname)s| %(message)s'
-        },
-        'generic': {
-            'format': '[%(asctime)s] |%(levelname)s| %(message)s',
-            'datefmt': "%d/%b/%Y %H:%M:%S",
-            'style': '%'
-        }
-
-    },
-    # NOTE: Generamos manejadores para los distintos tipos de mensajes:
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'level': 'DEBUG',
-            'formatter': 'generic'
-        },
-        # general: Para registrar todos los mensajes.
-        'general': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'general.log'),
-            'formatter': 'generic'
-        },
-        # requests: para los mensajes del servidor:
-        'requests': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'requests.log'),
-            'formatter': 'time',
-        },
-        # site: Para registrar los errores en el render de las variables de los templates.
-        'site': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'template-rendering.log'),
-            'formatter': 'time',
-        },
-        # database: Registra las consultas en la base de datos [solo para debug]
-        'database': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'database.log'),
-            'formatter': 'time',
-        },
-        # security: registra las operaciones sospechosas.
-        'security': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'security.log'),
-            'formatter': 'time',
-        },
-        # generalbatch: Para registrar todos los mensajes, pero limita los logs a 15MB
-        # Luego, fracciona el log en 10 partes segun backupCount.
-        'generalbatch': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'general-batch.log'),
-            'maxBytes': 1024*1024*15,  # 15MB
-            # 'maxBytes': 1024,
-            'backupCount': 10,
-            'formatter': 'generic',
-        },
-    },
-    # NOTE: Ahora establecemos los loggers:
-    'loggers': {
-        # django: registra todos los logs
-        # 'django': {
-        #     'handlers': ['general', 'console'],
-        #     'propagate': True,
-        #     'level': 'DEBUG',
-        # },
-        # django.server: filtra los mensajes del servidor
-        'django.server': {
-            'handlers': ['requests', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        # django.template: para los mensajes de renderizado de templates
-        'django.template': {
-            'handlers': ['site'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        # django.db.backends: registra las querys a la base de datos
-        'django.db.backends': {
-            'handlers': ['database'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        # django.security.csrf: registra errores csrf en formularios.
-        'django.security.csrf': {
-            'handlers': ['security'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        # django: registra todos los logs, pero en hasta 10 lotes de 15MB
-        'django': {
-            'handlers': ['generalbatch'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    }
-}
-
-# NOTE: Ejemplo de aplicación en API Test logging.
-LOGGING = COMPLEX_LOGGING # COMPLEX_LOGGING
-
-CELERY_BROKER_URL = 'redis://redis:6379'
-CELERY_RESULT_BACKEND = 'redis://redis:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'America/Argentina/Buenos_Aires'
-
-CELERY_BEAT_SCHEDULE = {
-    'hello': {
-        'task': 'e_commerce.tasks.hello_world',
-        'schedule': crontab(minute='*/2')  # Cada 2 minutos ejecutar
-    },
-    'segunda_tarea': {
-        'task': 'e_commerce.tasks.segunda_tarea',
-        'schedule': crontab(minute='*/60')  # Cada 60 minutos ejecutar
-    }
-}
-

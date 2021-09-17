@@ -22,13 +22,13 @@ services:
       # Enlazamos el puerto en el que trabaja Postgres, por defecto el 5432
       - 5432:5432
 
-  modulo_9:
+  modulo_10:
     # build es el lugar desde donde toma los archivos para generar la imagen.
     build: .
     # Imágen a utilizar:
-    image: modulo_9
+    image: modulo_10
     # Nombre del container:
-    container_name: modulo_9
+    container_name: modulo_10
     # Comportamiento ante fallos y al iniciar el sistema:
     restart: always
     # Carpetas enlazadas:
@@ -46,36 +46,3 @@ services:
     command: python marvel/manage.py runserver 0.0.0.0:8000
     depends_on:
       - db
-
-# +++++++++++++++++++ Configuración para tareas asincrónicas +++++++++++++++++++ #
-
-  # Base de datos tipo Key-Value redis:     
-  redis:
-    image: "redis:alpine"
-    container_name: redis
-    depends_on:
-      - db
-
-  # Celery-worker para ejecutar las tareas (funciones) que definimos en nuestro código:
-  celery:
-    build: .
-    command: bash -c "cd marvel && celery --app marvel worker -l info"
-    container_name: celery
-    volumes:
-      - type: bind
-        source: .
-        target: /opt/back_end
-    depends_on:
-      - redis
-
-  # Celery-beat para organizar la
-  celery-beat:
-    build: .
-    container_name: celery_beat
-    command: bash -c "cd marvel && celery --app marvel beat -l info"
-    volumes:
-      - type: bind
-        source: .
-        target: /opt/back_end
-    depends_on:
-      - redis
