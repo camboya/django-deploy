@@ -4,4 +4,4 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 WORKDIR /opt/back_end
 COPY . /opt/back_end
-CMD python marvel/manage.py runserver 0.0.0.0:$PORT
+CMD gunicorn --chdir /opt/back_end/marvel marvel.wsgi:application --bind 0.0.0.0:$PORT

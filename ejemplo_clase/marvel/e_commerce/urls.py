@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 # Django posee su propia herramienta para esto: 
 # Django redirects app: https://docs.djangoproject.com/en/3.2/ref/contrib/redirects/#module-django.contrib.redirects 
 
-INDEX_LIST = ['index/', 'index/#', '']
+INDEX_LIST = ['index/', 'index/#', '','/']
 INDEX_PATTERNS = [path(x, IndexView.as_view()) for x in INDEX_LIST]
 
 urlpatterns = [

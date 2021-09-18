@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$dpguq$#6!6dw($(qd6))7qcw%%#a=sc!-!7t!_av9%5*(q=uf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'https://inove-marvel.herokuapp.com/', '*']
 
 
 # Application definition
@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     # Third party apps: acá vamos agregando las aplicaciones de terceros, extensiones de Django.
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
+    'whitenoise.runserver_nostatic',
 ]
 
 REST_FRAMEWORK = {
@@ -68,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'marvel.urls'
@@ -95,17 +98,29 @@ WSGI_APPLICATION = 'marvel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+PRODUCTION_DB = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dfidt73q26402a',        # POSTGRES_DB
-        'USER': 'cmyrwdvgmttsfc',      # POSTGRES_USER
-        'PASSWORD': '9c784777f3438c4982b8c24d522bdbe8ad058f0a857b571f05ad796b8ef37077',  # POSTGRES_PASSWORD
-        'HOST': 'ec2-34-232-191-133.compute-1.amazonaws.com',                # Nombre del servicio
-        'PORT': '5432'              # Número del puerto
+        'NAME': 'dfidt73q26402a',           # POSTGRES_DB
+        'USER': 'cmyrwdvgmttsfc',           # POSTGRES_USER
+        'PASSWORD': '9c784777f3438c4982b8c24d522bdbe8ad058f0a857b571f05ad796b8ef37077', # POSTGRES_PASSWORD
+        'HOST': 'ec2-34-232-191-133.compute-1.amazonaws.com',                           # Nombre del servicio
+        'PORT': '5432'                      # Número del puerto
     }
 }
 
+DEVELOP_DB = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'marvel_db',      # POSTGRES_DB
+        'USER': 'inove_user',     # POSTGRES_USER
+        'PASSWORD': '123Marvel!', # POSTGRES_PASSWORD
+        'HOST': 'db',             # Nombre del servicio
+        'PORT': '5432'            # Número del puerto
+    }
+}
+
+DATABASES = PRODUCTION_DB
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

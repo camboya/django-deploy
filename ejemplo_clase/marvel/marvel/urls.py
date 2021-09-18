@@ -40,9 +40,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # e-commerce app urls:
+    path('',include('e_commerce.urls')),
     path('e-commerce/',include('e_commerce.api.urls')),
     path('e-commerce/',include('e_commerce.urls')),
-    
     # swagger app urls:
     path('api-docs/', TemplateView.as_view(
         template_name='api-docs/swagger-ui.html',
