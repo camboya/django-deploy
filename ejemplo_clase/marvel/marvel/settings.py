@@ -98,10 +98,10 @@ WSGI_APPLICATION = 'marvel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'marvel_db',        # POSTGRES_DB
-        'USER': 'inove_user',      # POSTGRES_USER
-        'PASSWORD': '123Marvel!',  # POSTGRES_PASSWORD
-        'HOST': 'db',                # Nombre del servicio
+        'NAME': 'dfidt73q26402a',        # POSTGRES_DB
+        'USER': 'cmyrwdvgmttsfc',      # POSTGRES_USER
+        'PASSWORD': '9c784777f3438c4982b8c24d522bdbe8ad058f0a857b571f05ad796b8ef37077',  # POSTGRES_PASSWORD
+        'HOST': 'ec2-34-232-191-133.compute-1.amazonaws.com',                # Nombre del servicio
         'PORT': '5432'              # Número del puerto
     }
 }

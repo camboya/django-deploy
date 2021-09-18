@@ -1,6 +1,6 @@
 version: "3.3"
 # Este es un archivo de docker-compose.yml para configurar el uso de contenedores de software.
-
+# SOLO PARA AMBIENTE DE DESARROLLO.
 services:
 
   db:
