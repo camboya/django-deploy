@@ -28,8 +28,7 @@ SECRET_KEY = 'django-insecure-$dpguq$#6!6dw($(qd6))7qcw%%#a=sc!-!7t!_av9%5*(q=uf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'https://inove-marvel.herokuapp.com/', '*']
-
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'https://inove-marvel.herokuapp.com/']
 
 # Application definition
 
@@ -61,7 +60,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,7 +69,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    # Corsheaders added:
+    'corsheaders.middleware.CorsMiddleware',
 ]
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'marvel.urls'
 
@@ -80,7 +81,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # NOTE: Agregamos el directorio para los templates, necesario para Swagger
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        # 'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,10 +101,10 @@ WSGI_APPLICATION = 'marvel.wsgi.application'
 PRODUCTION_DB = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dfidt73q26402a',           # POSTGRES_DB
-        'USER': 'cmyrwdvgmttsfc',           # POSTGRES_USER
-        'PASSWORD': '9c784777f3438c4982b8c24d522bdbe8ad058f0a857b571f05ad796b8ef37077', # POSTGRES_PASSWORD
-        'HOST': 'ec2-34-232-191-133.compute-1.amazonaws.com',                           # Nombre del servicio
+        'NAME': 'dc2fmok5lb9368',           # POSTGRES_DB
+        'USER': 'epqdasaigmomct',           # POSTGRES_USER
+        'PASSWORD': '9fae66f3e7b9daad5dd4e3c4733bf8c94b1a20ba0ad002286f08b3b04a62ffba', # POSTGRES_PASSWORD
+        'HOST': 'ec2-52-3-130-181.compute-1.amazonaws.com',                           # Nombre del servicio
         'PORT': '5432'                      # Número del puerto
     }
 }
@@ -120,7 +120,8 @@ DEVELOP_DB = {
     }
 }
 
-DATABASES = PRODUCTION_DB
+DATABASES = DEVELOP_DB
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -146,7 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Argentina/Buenos_Aires'
-# TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -162,7 +162,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (str(BASE_DIR.joinpath('staticfiles')),)
-WHITENOISE_MANIFEST_STRICT = False
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
@@ -206,7 +205,6 @@ LOGGING = {
             'formatter': 'generic',        },
     },
     'loggers': {
-        # django: registra todos los logs
         'django': {
             'handlers': ['general'],
             'propagate': True,
