@@ -36,9 +36,9 @@ def get_env(var):
 SECRET_KEY = get_env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env('DEBUG')
+DEBUG = True if get_env('DEBUG') == 'True' else False
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'https://inove-marvel.herokuapp.com/']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'inove-marvel.herokuapp.com']
 
 # Application definition
 
