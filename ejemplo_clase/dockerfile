@@ -10,5 +10,5 @@ ENV POSTGRES_PASSWORD=123Marvel!
 ENV POSTGRES_HOST=db
 ENV DEBUG=True
 ENV SECRET_KEY=django-insecure-$dpguq$#6!6dw($(qd6))7qcw%%#a=sc!-!7t!_av9%5*(q=uf
-RUN python manage.py collectstatic --noinput
+RUN python marvel/manage.py collectstatic --noinput
 CMD gunicorn --chdir /opt/back_end/marvel marvel.wsgi:application --bind 0.0.0.0:$PORT
