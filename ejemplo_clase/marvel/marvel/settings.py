@@ -18,15 +18,25 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+def get_env(var):
+    '''
+    Funcion para traer las variables de entorno.
+    '''
+    try:
+        environment = os.getenv(var)
+        return environment
+    except:
+        return ''
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$dpguq$#6!6dw($(qd6))7qcw%%#a=sc!-!7t!_av9%5*(q=uf'
+# SECRET_KEY = 'django-insecure-$dpguq$#6!6dw($(qd6))7qcw%%#a=sc!-!7t!_av9%5*(q=uf'
+SECRET_KEY = get_env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = get_env('DEBUG')
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'https://inove-marvel.herokuapp.com/']
 
@@ -98,29 +108,27 @@ WSGI_APPLICATION = 'marvel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-PRODUCTION_DB = {
+# PRODUCTION_DB = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'dc2fmok5lb9368',           # POSTGRES_DB
+#         'USER': 'epqdasaigmomct',           # POSTGRES_USER
+#         'PASSWORD': '9fae66f3e7b9daad5dd4e3c4733bf8c94b1a20ba0ad002286f08b3b04a62ffba', # POSTGRES_PASSWORD
+#         'HOST': 'ec2-52-3-130-181.compute-1.amazonaws.com',                           # Nombre del servicio
+#         'PORT': '5432'                      # Número del puerto
+#     }
+# }
+
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dc2fmok5lb9368',           # POSTGRES_DB
-        'USER': 'epqdasaigmomct',           # POSTGRES_USER
-        'PASSWORD': '9fae66f3e7b9daad5dd4e3c4733bf8c94b1a20ba0ad002286f08b3b04a62ffba', # POSTGRES_PASSWORD
-        'HOST': 'ec2-52-3-130-181.compute-1.amazonaws.com',                           # Nombre del servicio
-        'PORT': '5432'                      # Número del puerto
+        'NAME': get_env('POSTGRES_DB'),             # POSTGRES_DB
+        'USER': get_env('POSTGRES_USER'),           # POSTGRES_USER
+        'PASSWORD': get_env('POSTGRES_PASSWORD'),   # POSTGRES_PASSWORD
+        'HOST': get_env('POSTGRES_HOST'),           # Nombre del servicio
+        'PORT': '5432'                              # Número del puerto
     }
 }
-
-DEVELOP_DB = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'marvel_db',      # POSTGRES_DB
-        'USER': 'inove_user',     # POSTGRES_USER
-        'PASSWORD': '123Marvel!', # POSTGRES_PASSWORD
-        'HOST': 'db',             # Nombre del servicio
-        'PORT': '5432'            # Número del puerto
-    }
-}
-
-DATABASES = DEVELOP_DB
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
