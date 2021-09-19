@@ -5,7 +5,7 @@ Web: [Inove](http://inove.com.ar)
 
 ---
 
-# Django - utilidades
+# Django - Deploy
 En este repositorio encontrarán los siguientes archivos:
 
 __Ejemplos que el profesor mostrará en clase__\
@@ -14,8 +14,6 @@ __Ejemplos que el profesor mostrará en clase__\
 * **docker-compose.yml** (Para configurar el contenedor de Docker)
 * **requirements.txt** (Que contiene las librerías que vamos a estar usando)
 * **/marvel** (Directorio raíz de nuestra aplicación)
-* **/database** (Directorio de nuestra base de datos)
-
 ---
 
 # Comandos útiles 🐋
@@ -26,7 +24,7 @@ Siempre en el mismo directorio del archivo *docker-compose.yml*
 
 ### 2. Correr la línea de comandos dentro del contenedor
 
-**$** `docker exec -i -t modulo_9 bash`
+**$** `docker exec -i -t modulo_10 bash`
 
 Nos va a devolver a nuestra consola, una consola dentro del contenedor de software.
 
@@ -57,7 +55,7 @@ Tan solo con el comando `ctrl + c`  se detiene la ejecución de nuestro contened
 
 Una forma alternativa es con el siguiente comando en la terminal del host:
 
-**$** `docker stop modulo_9`  
+**$** `docker stop modulo_10`  
 
 O también puede ser con docker-compose:
 Tenemos que estar en la carpeta que contiene el archivo *docker-compose.yml* y hacer:
