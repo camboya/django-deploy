@@ -15,7 +15,9 @@
 
 <body>
     <div id="sidebar">
-        <img id="logo" src="{% static 'e-commerce/img/marvel.svg' %}" alt="My image" width="15%" height="10%">
+        <a href="/">
+            <img id="logo" src="{% static 'e-commerce/img/marvel.svg' %}" alt="My image" width="15%" height="10%">
+        </a>
         <br>
         {% block sidebar %}
         | <a href="/e-commerce/index">Comics</a>
@@ -25,9 +27,13 @@
         | <a href="/e-commerce/cart">Cart</a>
         | <a href="/e-commerce/wish">Wishes</a>
             {% if user.is_superuser %}
-                | <a href="/e-commerce/graph">Graph</a>
-                | <a href="/admin">Administration</a>
-                | <a href="/api-docs">API Client</a>
+                <br>
+                <div class="superuser">
+                    | <a href="/e-commerce/graph">Graph</a>
+                    | <a href="/admin">Administration</a>
+                    | <a href="/e-commerce/get-comics/">Get comics</a>
+                    | <a href="/api-docs">API Client</a>
+                </div>
              {% endif %}
         {% else %}
         | <a href="/e-commerce/login">Login</a>

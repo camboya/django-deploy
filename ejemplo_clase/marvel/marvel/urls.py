@@ -22,6 +22,7 @@ from rest_framework.schemas import get_schema_view
 
 
 description = '''
+<a href="/">BACK TO INDEX</a>
 <img src="https://lh3.googleusercontent.com/pw/AM-JKLWLct73ne_PgqQ146YMYjUgbswqg703xPZPnVImkFYwGbao5YksFGJFOlcoCJLfqIJ9_LRwFAwP9qinoEvsLx92NTOfAn54SgMLTgMvtii0r_rjneGjR53bx08OCncv4mRH4gNnpmEUuKofj59L9dAv=w1257-h103-no?authuser=0">
 </br>
 </br>

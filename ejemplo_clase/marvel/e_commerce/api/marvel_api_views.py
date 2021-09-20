@@ -19,6 +19,17 @@ URL_BASE = 'http://gateway.marvel.com/v1/public/'
 ENDPOINT = 'comics'
 PARAMS = dict(ts=TS, apikey=PUBLIC_KEY, hash=HASHED.hexdigest())
 
+STYLE = '''
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Marvel:ital,wght@1,700&family=Permanent+Marker&display=swap');
+    body{
+    background-color:rgba(15, 15, 15);
+    font-family: 'Marvel', sans-serif;
+    color:rgb(255, 0, 0);
+    }
+    </style>
+'''
+
 
 @csrf_exempt
 def get_comics(request):
@@ -80,8 +91,11 @@ def get_comics(request):
 
     # NOTE: Construimos la tabla, concatenando en un string el código HTML:
 
-    template = '''<div>
-    <div style="height:90%; width:90%; overflow:auto;background:gray;">
+    template = f'''
+    {STYLE}
+    <div>
+    <a href="/"> <h1>BACK TO INDEX</h1> </a>
+    <div style="height:100%; width:100%; overflow:auto;background:rgb(22, 22, 22);">
         <table>'''
 
     for i in range(len(id)):
@@ -146,11 +160,11 @@ def get_comics(request):
     </table>
     </div>'''
     # Imprimimos por consola el HTML construido (se puede probar en https://codepen.io/):
-    print(VERDE+template)
+    # print(VERDE+template)
     # O lo podemos guardar en un HTML, como el nombre no cambia, el archivo se pisa en cada petición:
-    f = open('get_comics.html','w')
-    f.write(template)
-    f.close
+    # f = open('get_comics.html','w')
+    # f.write(template)
+    # f.close
     return HttpResponse(template)
 
 
@@ -197,6 +211,7 @@ def purchased_item(request):
     # Creamos en una tabla la respuesta del comic comprado,
     # con precio unitario y precio total:
     template = f'''
+    {STYLE}
     <h1>
     Your purchased product:
     </h1>
@@ -217,7 +232,9 @@ def purchased_item(request):
         </td>
     <tr>
     </table>
+    <a href="/"> <h2>BACK TO INDEX</h2> </a>
+
     '''
     # Imprimimos por consola el HTML construido (se puede probar en https://codepen.io/):
-    print(VERDE+template)
+    # print(VERDE+template)
     return HttpResponse(template)
